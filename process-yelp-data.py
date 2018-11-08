@@ -51,6 +51,20 @@ test_data = {
 # train.reset_index(level=0, inplace=True)
 
 # https://stackoverflow.com/questions/34341974/nested-json-to-pandas-dataframe-with-specific-format
+
 df = pd.io.json.json_normalize(test_data)
 df.columns = df.columns.map(lambda x: x.split(".")[-1])
 
+data = []
+filename = "yelp_academic_dataset_business.json"
+with open(filename) as f:
+    counter = 0
+    for line in f:
+        if counter == 5:
+            break
+        data.append(line)
+        counter += 1
+
+a = pd.concat([pd.DataFrame(pd.io.json.json_normalize(json.loads(data[i])), columns=df.columns) for i in range(len(data))],ignore_index=True)
+
+print(a)
