@@ -4,8 +4,8 @@ import csv
 
 df = pd.read_pickle("data.pkl")
 
-# get all restaurants in toronto that is open
-df_toronto = df.loc[(df['city'].isin(['Toronto'])) & (df['is_open']==True)]
+# get all restaurants that's in toronto, open, and has a neighborhood
+df_toronto = df.loc[(df['city'].isin(['Toronto'])) & (df['is_open']==True) & (df['neighborhood']!="")]
 
 distinct_neighborhood = df_toronto.neighborhood.unique().tolist()
 
