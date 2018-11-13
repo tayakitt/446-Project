@@ -46,23 +46,35 @@ col_names = test_df.columns.values
 # https://stackoverflow.com/questions/21058935/python-json-loads-shows-valueerror-extra-data
 file = 'data/yelp_academic_dataset_business.json'
 
-df = pd.DataFrame()
-counter = 0
+# df = pd.DataFrame()
+# counter = 0
+#
+# for obj in open(file, 'r'):
+#     print (counter)
+#     business = json.loads(obj)
+#     new_record = pd.DataFrame(pd.io.json.json_normalize(business), columns=col_names)
+#     df = pd.concat([df, new_record], sort=True)
+#
+#     # if counter == 50:
+#     #     break
+#     counter += 1
+#
+# # save data
+# df.to_pickle("data.pkl")
 
-for obj in open(file, 'r'):
-    print (counter)
-    business = json.loads(obj)
-    new_record = pd.DataFrame(pd.io.json.json_normalize(business), columns=col_names) 
-    df = pd.concat([df, new_record], sort=True)
+# print("\n\n")
+# print(len(list(df.columns.values)))
+# print(list(df.columns.values))
 
-    # if counter == 50:
-    #     break
-    counter += 1
+data = []
+filename = "yelp_academic_dataset_business.json"
+with open(filename) as f:
+    counter = 0
+    for line in f:
+        data.append(line)
 
-# save data
-df.to_pickle("data.pkl")
+a = pd.concat([pd.DataFrame(pd.io.json.json_normalize(json.loads(data[i])), columns=col_names) for i in range(len(data))], ignore_index=True)
+a.to_pickle("data.pkl")
 
-print("\n\n")
-print(len(list(df.columns.values)))
-print(list(df.columns.values))
+print(a)
 
