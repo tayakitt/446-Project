@@ -5,25 +5,25 @@ import csv
 
 
 nbh_names = []
-with open('data/toronto_hoods.csv', mode='r') as csv_file:
+with open('raw-data/toronto_hoods.csv', mode='r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         nbh_names.append(row[0])
 
 postals = {}
-with open('data/postal_mapping.csv', mode='r') as csv_file:
+with open('raw-data/postal_mapping.csv', mode='r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         postals[row[2]] = row[0]
 
 yelp_mapping = {}
-with open('data/yelp_mapping.csv', mode='r') as csv_file:
+with open('raw-data/yelp_mapping.csv', mode='r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         yelp_mapping[row[0]] = row[1]
 
 hood_to_ward = {}
-with open('data/hood-to-ward.csv', mode='r') as csv_file:
+with open('raw-data/hood-to-ward.csv', mode='r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
         hood_to_ward[row[0]] = row[1]
@@ -59,12 +59,12 @@ def map_yelp_to_toronto(yelp_name):
         return yelp_mapping[yelp_name]
     return False
 
-hood_data = pd.read_csv("data/toronto-data.csv").transpose()
+hood_data = pd.read_csv("raw-data/toronto-data.csv").transpose()
 hood_data.columns = hood_data.iloc[0]
 hood_data.reindex(hood_data.index.drop("Unnamed: 0"))
 hood_data["nbhd"] = hood_data.index.values
 
-ward_data = pd.read_csv("data/ward-data.csv").transpose()
+ward_data = pd.read_csv("raw-data/ward-data.csv").transpose()
 ward_data.columns = ward_data.iloc[0]
 ward_data.reindex(ward_data.index.drop("Unnamed: 0"))
 ward_data["Ward"] = ward_data.index.values

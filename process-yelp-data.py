@@ -6,7 +6,7 @@ import csv
 df = pd.read_pickle("pkl-data/data.pkl")
 
 # read food terms data
-file = open("data/food_terms.txt", "r")
+file = open("raw-data/food_terms.txt", "r")
 file_lines = file.read().splitlines()
 
 # regex to match whole word
