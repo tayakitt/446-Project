@@ -20,7 +20,7 @@ df_toronto = df.loc[(df['city'].isin(['Toronto'])) & (df['is_open']==True) & (df
 df_toronto_rest = df_toronto[df_toronto["categories"].str.contains(food_words, case=False, na=False)]
 
 # pickle data for future use
-df_toronto_rest.to_pickle("df_toronto_restaurants")
+df_toronto_rest.to_pickle("df_toronto_restaurants.pkl")
 
 # column headers
 headers = list(df_toronto.columns.values)
