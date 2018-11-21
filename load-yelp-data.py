@@ -44,7 +44,7 @@ test_df = pd.io.json.json_normalize(test_data)
 col_names = test_df.columns.values
 
 # https://stackoverflow.com/questions/21058935/python-json-loads-shows-valueerror-extra-data
-file = 'data/yelp_academic_dataset_business.json'
+file = 'yelp_academic_dataset_business.json'
 
 # df = pd.DataFrame()
 # counter = 0
@@ -74,7 +74,7 @@ with open(filename) as f:
         data.append(line)
 
 a = pd.concat([pd.DataFrame(pd.io.json.json_normalize(json.loads(data[i])), columns=col_names) for i in range(len(data))], ignore_index=True)
-a.to_pickle("data.pkl")
+a.to_pickle("pkl-data/data.pkl")
 
 print(a)
 
