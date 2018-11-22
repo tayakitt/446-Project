@@ -22,6 +22,12 @@ df_toronto_rest = df_toronto[df_toronto["categories"].str.contains(food_words, c
 # pickle data for future use
 df_toronto_rest.to_pickle("pkl-data/df_toronto_restaurants.pkl")
 
+# drop not need columns
+df_toronto_rest.drop(columns=["address", "business_id", "city", "hours.Friday", "hours.Saturday", "hours.Sunday", "is_open", "latitude", "longitude", "name", "postal_code", "state"], inplace=True)
+
+# write to CSV
+df_toronto_rest.to_csv("df_toronto_restaurants.csv", index=False)
+
 # column headers
 headers = list(df_toronto.columns.values)
 
