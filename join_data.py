@@ -71,7 +71,7 @@ ward_data = pd.read_csv("raw-data/ward-data.csv").transpose()
 ward_data.columns = ward_data.iloc[0]
 ward_data.drop(ward_data.index[0], inplace=True)
 ward_data["Ward"] = ward_data.index.values
-# print(ward_data)
+print(ward_data)
 
 # assign wards to neighbourhoods
 ward_column = []
