@@ -20,7 +20,7 @@ df_toronto = df.loc[(df['city'].isin(['Toronto'])) & (df['is_open'] == True) & (
 df_toronto_rest = df_toronto[df_toronto["categories"].str.contains(food_words, case=False, na=False)]
 
 # drop not need columns
-df_toronto_rest.drop(columns=["address", "business_id", "city", "latitude", "longitude", "name", "postal_code", "state", "hours.Friday", "hours.Saturday", "hours.Sunday", "is_open", "attributes.BikeParking", "attributes.WheelchairAccessible"], inplace=True)
+df_toronto_rest.drop(columns=["address", "business_id", "city", "latitude", "longitude", "name", "postal_code", "state", "hours.Friday", "hours.Saturday", "hours.Sunday", "is_open", "attributes.BikeParking", "attributes.WheelchairAccessible", "categories"], inplace=True)
 
 # replace NaN values in some columns with default values
 df_toronto_rest["attributes.Alcohol"].fillna("none", inplace=True)
@@ -38,6 +38,26 @@ df_toronto_rest.loc[~df_toronto_rest["attributes.BusinessParking"].str.contains(
 
 # drop NaN
 df_toronto_rest = df_toronto_rest.dropna()
+
+# rename column headers
+df_toronto_rest.columns = [
+    "alcohol",
+    "businessAcceptsCreditCards",
+    "businessParking",
+    "goodForKids",
+    "noiseLevel",
+    "restaurantsAttire",
+    "restaurantsDelivery",
+    "restaurantsGoodForGroups",
+    "restaurantsPriceRange",
+    "restaurantsReservations",
+    "restaurantsTakeOut",
+    "smoking",
+    "wiFi",
+    "neighborhood",
+    "review_count",
+    "stars"
+]
 
 # pickle data for future use
 df_toronto_rest.to_pickle("pkl-data/df_toronto_restaurants.pkl")
