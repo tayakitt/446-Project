@@ -36,6 +36,9 @@ print(df_toronto_rest.isna().sum())
 df_toronto_rest.loc[df_toronto_rest["attributes.BusinessParking"].str.contains('True', na=False), "attributes.BusinessParking"] = 'True'
 df_toronto_rest.loc[~df_toronto_rest["attributes.BusinessParking"].str.contains('True', na=False), "attributes.BusinessParking"] = 'False'
 
+# drop NaN
+df_toronto_rest = df_toronto_rest.dropna()
+
 # pickle data for future use
 df_toronto_rest.to_pickle("pkl-data/df_toronto_restaurants.pkl")
 
