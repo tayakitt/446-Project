@@ -91,6 +91,12 @@ hoods_and_wards.index = hoods_and_wards["neighborhood"]
 # read in cleaned toronto restaurant data
 toronto_rest = pd.read_pickle("pkl-data/df_toronto_restaurants.pkl")
 
+# one hot encode yelp data
+tmp = toronto_rest[["postal_code", "neighborhood"]]
+without_postal_nbhd = toronto_rest.drop(columns=["postal_code", "neighborhood"], inplace=False)
+toronto_rest = pd.get_dummies(without_postal_nbhd)
+toronto_rest = pd.concat([toronto_rest, tmp], axis=1)
+
 # iterate through toronto restaurants and map to neighborhoods
 neighborhood_keys = []
 not_matched_nbhd = []
