@@ -2,7 +2,6 @@ from pandas import read_csv
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
 from matplotlib import pyplot as plt
 import pandas as pd
 
@@ -38,3 +37,9 @@ plt.show()
 # accuracy score
 score = model.score(X_test, y_test)
 print("model score: {}".format(score))
+
+# residual plot
+plt.scatter(lm.predict(X_train), lm.predict(X_train) - y_train, c='b', s=40, alpha=0.5)
+plt.scatter(lm.predict(X_test), lm.predict(X_test) - y_test, c='g', s=40)
+plt.hlines(y=0, xmin=0, xmax=6)
+plt.show()
