@@ -18,11 +18,18 @@ yelp_features = x_df.columns.values
 
 # feature extraction
 model = LinearRegression()
-rfe = RFE(model, num_attributes)
+rfe = RFE(model, 1)
 fit = rfe.fit(X, Y)
 print("Num Features: %d" % (fit.n_features_,))
 print("Selected Features: %s" % (fit.support_,))
 print("Feature Ranking: %s" % (fit.ranking_,))
+
+# ranking set
+yelp_features_rankings = {}
+index = 0
+for rank in fit.ranking_:
+    yelp_features_rankings[yelp_features[index]] = rank
+    index += 1
 
 rest_and_hoods = pd.read_pickle('pkl-data/toronto_rest_and_hoods.pkl')
 rest_and_hoods.drop(columns=["neighborhood_x", "postal_code", "neighborhood_key", "Ward", "neighborhood_y"], inplace=True)
@@ -36,8 +43,18 @@ rest_and_hoods_features = rest_and_hoods.drop(columns=["stars"]).columns.values
 
 num_attributes2 = len(rest_and_hoods_features)
 
-rfe2 = RFE(model, num_attributes2)
+rfe2 = RFE(model, 1)
 fit2 = rfe2.fit(XX, YY)
 print("Num Features: %d" % (fit2.n_features_,))
 print("Selected Features: %s" % (fit2.support_,))
 print("Feature Ranking: %s" % (fit2.ranking_,))
+
+# ranking set
+all_features_rankings = {}
+index = 0
+for rank in fit2.ranking_:
+    all_features_rankings[rest_and_hoods_features[index]] = rank
+    index += 1
+
+print(yelp_features_rankings)
+print(all_features_rankings)
