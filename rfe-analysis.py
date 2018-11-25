@@ -24,6 +24,20 @@ print("Num Features: %d" % (fit.n_features_,))
 print("Selected Features: %s" % (fit.support_,))
 print("Feature Ranking: %s" % (fit.ranking_,))
 
-all_df = pd.read_pickle('pkl-data/toronto_rest_and_hoods.pkl')
+rest_and_hoods = pd.read_pickle('pkl-data/toronto_rest_and_hoods.pkl')
+rest_and_hoods.drop(columns=["neighborhood_x", "postal_code", "neighborhood_key"], inplace=True)
 
-print(all_df.shape)
+rest_hoods_array = rest_and_hoods.values
+
+YY = rest_hoods_array[:, 1]
+XX = rest_and_hoods.drop(columns=["stars"]).values
+
+rest_and_hoods_features = rest_and_hoods.drop(columns=["stars"]).columns.values
+
+num_attributes2 = len(rest_and_hoods_features)
+
+rfe2 = RFE(model, num_attributes2)
+fit2 = rfe2.fit(XX, YY)
+print("Num Features: %d" % (fit2.n_features_,))
+print("Selected Features: %s" % (fit2.support_,))
+print("Feature Ranking: %s" % (fit2.ranking_,))
