@@ -64,38 +64,36 @@ hood_data = pd.read_csv("raw-data/toronto-data.csv").transpose()
 hood_data.columns = hood_data.iloc[0]
 hood_data.drop(hood_data.index[0], inplace=True)
 hood_data.drop(hood_data.index[0], inplace=True)
-hood_data["neighborhood"] = hood_data.index.values
+hood_data["neighborhood"] = [w.replace("_", " ") for w in hood_data.index.values]
 
 # read in all ward data
 ward_data = pd.read_csv("raw-data/ward-data.csv").transpose()
 ward_data.columns = ward_data.iloc[0]
 ward_data.drop(ward_data.index[0], inplace=True)
 ward_data["Ward"] = ward_data.index.values
-print(ward_data)
 
 # assign wards to neighbourhoods
 ward_column = []
+unmatched_ward = []
 for index, row in hood_data.iterrows():
-    if index in hood_to_ward:
-        ward_column.append("Ward " + hood_to_ward[index])
+    neighborhood = index.replace("_", " ")
+    if neighborhood in hood_to_ward:
+        ward_column.append("Ward " + hood_to_ward[neighborhood])
     else:
+        unmatched_ward.append(neighborhood)
         ward_column.append(None)
 
 # add ward column
 hood_data["Ward"] = ward_column
 
 # merge nbhd and wards
-hoods_and_wards = pd.merge(hood_data, ward_data, on="Ward", how="outer")
+hoods_and_wards = pd.merge(hood_data, ward_data, on="Ward", how="inner")
 hoods_and_wards.index = hoods_and_wards["neighborhood"]
+
+print(hoods_and_wards["neighborhood"])
 
 # read in cleaned toronto restaurant data
 toronto_rest = pd.read_pickle("pkl-data/df_toronto_restaurants.pkl")
-
-# one hot encode yelp data
-tmp = toronto_rest[["postal_code", "neighborhood"]]
-without_postal_nbhd = toronto_rest.drop(columns=["postal_code", "neighborhood"], inplace=False)
-toronto_rest = pd.get_dummies(without_postal_nbhd)
-toronto_rest = pd.concat([toronto_rest, tmp], axis=1)
 
 # iterate through toronto restaurants and map to neighborhoods
 neighborhood_keys = []
@@ -129,8 +127,10 @@ hoods_and_wards.reset_index(drop=True, inplace=True)
 toronto_rest["neighborhood_key"] = neighborhood_keys
 
 # join toronto restaurants with hoods and wards
-result = pd.merge(toronto_rest, hoods_and_wards, left_on="neighborhood_key", right_on="neighborhood", how="left")
+result = pd.merge(toronto_rest, hoods_and_wards, left_on="neighborhood_key", right_on="neighborhood", how="inner")
 
 # write to a pickle
 result.to_pickle("pkl-data/toronto_rest_and_hoods.pkl")
 print(result)
+
+print(hoods_and_wards.shape)

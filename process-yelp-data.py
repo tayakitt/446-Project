@@ -60,6 +60,17 @@ df_toronto_rest.columns = [
     "stars"
 ]
 
+# normalize review count
+reviews = df_toronto_rest["review_count"]
+df_toronto_rest["review_count"] = (reviews - reviews.min()) / (reviews.max() - reviews.min())
+
+# onehot encode
+tmp = df_toronto_rest[["postal_code", "neighborhood", "stars", "review_count"]]
+without_bad_stuff = df_toronto_rest.drop(columns=["postal_code", "neighborhood", "stars", "review_count"], inplace=False)
+df_toronto_rest = pd.get_dummies(without_bad_stuff)
+df_toronto_rest = pd.concat([df_toronto_rest, tmp], axis=1)
+
+
 # pickle data for future use
 df_toronto_rest.to_pickle("pkl-data/df_toronto_restaurants.pkl")
 
