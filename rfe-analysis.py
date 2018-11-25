@@ -25,7 +25,7 @@ print("Selected Features: %s" % (fit.support_,))
 print("Feature Ranking: %s" % (fit.ranking_,))
 
 rest_and_hoods = pd.read_pickle('pkl-data/toronto_rest_and_hoods.pkl')
-rest_and_hoods.drop(columns=["neighborhood_x", "postal_code", "neighborhood_key"], inplace=True)
+rest_and_hoods.drop(columns=["neighborhood_x", "postal_code", "neighborhood_key", "Ward", "neighborhood_y"], inplace=True)
 
 rest_hoods_array = rest_and_hoods.values
 
