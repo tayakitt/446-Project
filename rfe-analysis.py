@@ -1,6 +1,7 @@
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
 import pandas as pd
+import operator
 
 # load data
 yelp_df = pd.read_pickle('pkl-data/df_toronto_restaurants.pkl')
@@ -56,5 +57,8 @@ for rank in fit2.ranking_:
     all_features_rankings[rest_and_hoods_features[index]] = rank
     index += 1
 
+# order dictionary based on ranking
+yelp_features_rankings = sorted(yelp_features_rankings.items(), key=operator.itemgetter(1), reverse=False)
+all_features_rankings = sorted(all_features_rankings.items(), key=operator.itemgetter(1), reverse=False)
 print(yelp_features_rankings)
 print(all_features_rankings)
