@@ -93,5 +93,3 @@ rest_and_hoods.drop(columns=["neighborhood_x", "postal_code", "neighborhood_key"
 print("joined data")
 toCsv("joined-features-ranks.csv", rfe("stars", rest_and_hoods))
 
-
-
