@@ -134,3 +134,10 @@ result.to_pickle("pkl-data/toronto_rest_and_hoods.pkl")
 print(result)
 
 print(hoods_and_wards.shape)
+
+# new dataframe with neighborhoods and stars
+stars = result["stars"]
+hoods_and_wards["stars"] = stars
+
+#save to pickle
+hoods_and_wards.to_pickle("pkl-data/hoods_and_stars.pkl")
