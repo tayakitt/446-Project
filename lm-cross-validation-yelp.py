@@ -29,11 +29,6 @@ features = [
 
 y_df = df['stars'].copy()
 x_df = df[features].copy()
-# x_df = df.copy().drop(columns="stars")
-
-# set explanatory and prediction data
-# X = np.array(x_df.values)
-# Y = np.array(y_df.values)
 
 kf = KFold(n_splits=10)
 
@@ -43,7 +38,7 @@ predictions = cross_val_predict(lm, x_df, y_df, cv=kf)
 plt.scatter(y_df, predictions)
 plt.xlabel("Actual Star")
 plt.ylabel("Predicted Star")
-plt.title("Acutal Star Rating VS Predicted Star Rating")
+plt.title("Actual Star Rating vs Predicted")
 plt.show()
 
 # accuracy score of different folds
